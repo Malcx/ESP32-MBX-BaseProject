@@ -3,12 +3,7 @@
 
 
 	#include "Base.h"
-
-	#if ESP_TYPE == 32
-		#include "SPIFFS.h"
-	#else
-		#include <FS.h>
-	#endif
+	#include "SPIFFS.h"
 
 	void mountSpiffs();
 	bool writeFile(String fname, String str);

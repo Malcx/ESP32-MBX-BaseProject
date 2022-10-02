@@ -37,5 +37,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+	dbg("Is in loop");
+	delay(1000);
 }

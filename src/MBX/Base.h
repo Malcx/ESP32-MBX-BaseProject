@@ -4,13 +4,7 @@
 	#include <ArduinoJson.h>
 
 
-	#define ESP_TYPE 0
-	#if defined ARDUINO_ARCH_ESP8266
-		#define ESP_TYPE 8266
-	#elif defined ESP32
-		#define ESP_TYPE 32
-	#endif
-
+	#define ESP_TYPE 32
 
 
 	#include "../../_config.h"
@@ -22,5 +16,6 @@
 
 
 	void MBX_init();
+	void MBX_sleep(unsigned long sleepTime);
 
 #endif

@@ -3,9 +3,10 @@
 
 
 
-RTC_DATA_ATTR int recordCounter = 0;
+RTC_DATA_ATTR int bootCounter = 0;
 
 void MBX_init(){
+
 
 
 
@@ -16,38 +17,63 @@ void MBX_init(){
 	else
 		Serial.begin(74880);
 
-	/* Output some application settings */
-	dbg("===================");
-	dbg(BuildName);
-	dbg("Version  : " + BuildVersion);
-	dbg("Date     : " + BuildDate);
-	dbg("ESP_TYPE : " + String(ESP_TYPE));
-	dbg("===================");
-
-	dbg("recordCounter: " + String(recordCounter));
 
 
 
-	if(recordCounter == 0)
+	pinMode(AP_PIN_ON_BOOT, INPUT_PULLDOWN);
+	int goToAPModeButton = digitalRead(AP_PIN_ON_BOOT);
+
+		dbg("Button value was: ");
+		dbg(goToAPModeButton);
+
+	if(goToAPModeButton == 1)
 	{
-		// Mounting SPIFFS takes 100ms
+		MBX_goAP("Button press on boot.");
+	}
+
+
+	if(bootCounter == 0)
+	{
+		/* Output some application settings */
+		dbg("===================");
+		dbg(BuildName);
+		dbg("Version  : " + BuildVersion);
+		dbg("Date     : " + BuildDate);
+		dbg("ESP_TYPE : " + String(ESP_TYPE));
+		dbg("===================");
+		dbg("bootCounter: " + String(bootCounter));
+	}
+
+
+
+
+	if(bootCounter == 0)
+	{
+		// Mounting SPIFFS takes about 100ms
 		mountSpiffs();
 
 		File confFile = SPIFFS.open(CONFIG_PATH, "r");
 	 	if (!confFile) {
 	 		dbg("-> No config file found.");
-	 		dbg("-> Entering AP Setup ");
-	 		dbg("   - SSID : " + AP_SSID);
-	 		dbg("   - PASS : " + AP_PASS);
+			MBX_goAP("No config file found at: " + String(CONFIG_PATH));
 		} 
-
 	}
-	dbg("Uptime: ");
-	dbg(esp_timer_get_time());
 
 
-	recordCounter++;
+
+
+
+	bootCounter++;
+
 	unsigned long sleepTime = 0.1 * 60e6; // 6 seconds
+	MBX_sleep(sleepTime);
+}
+
+void MBX_sleep(unsigned long sleepTime){
+
+	dbg("Awake time in milliseconds: ");
+	dbg(esp_timer_get_time() / 1000);
+
   	ESP.deepSleep(sleepTime);
 
 	/*

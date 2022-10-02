@@ -1,8 +1,8 @@
 #ifndef ACCESSPOINT_H
 	#define ACCESSPOINT_H
 
-	#include <Arduino.h>
+	#include "Base.h"
 
-	void powerOn();
+	void MBX_goAP(String reason);
 
 #endif

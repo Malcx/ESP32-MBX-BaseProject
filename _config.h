@@ -7,6 +7,8 @@
 
 	// MNake these  #defined ?
 
+	const int AP_PIN_ON_BOOT = 14; // If this pin has HIGH on boot then go into setup
+
 	const String AP_SSID = "ESPSetUp";
 	const String AP_PASS = "helloworld";
 	const String AP_MDNS_Name = "mbx";

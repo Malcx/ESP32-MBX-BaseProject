@@ -3,17 +3,16 @@
 
 
 void mountSpiffs(){
+
     while(!SPIFFS.begin()){
       dbg("SPIFFS Error - reformatting.");
-       bool formatted = SPIFFS.format();
-       if ( formatted ) {
-	        dbg("SPIFFS formatted successfully");
+      bool formatted = SPIFFS.format();
+      if ( formatted ) {
+	      dbg("SPIFFS formatted successfully");
         SPIFFS.begin();
       }
     }
-    //else{
     dbg("SPIFFS mounted");
-    //}
 }
 
 
